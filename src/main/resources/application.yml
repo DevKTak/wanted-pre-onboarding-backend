@@ -1,7 +1,7 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
     show-sql: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
