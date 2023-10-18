@@ -59,6 +59,9 @@ public class RecruitmentService {
 	public List<FindRecruitmentResponse> findAll() {
 		List<Recruitment> recruitments = recruitmentRepository.findAll();
 
+		if (recruitments.size() == 0) {
+			throw new NoSuchElementException("조회된 결과가 없습니다.");
+		}
 		return recruitments.stream()
 			.map(r -> r.toDto(r))
 			.collect(Collectors.toList());
@@ -73,6 +76,10 @@ public class RecruitmentService {
 			.orElseThrow(() -> new NoSuchElementException("회사 ID 값에 해당하는 회사를 찾을 수 없습니다."));
 
 		List<Recruitment> recruitments = company.getRecruitments();
+
+		if (recruitments == null) {
+			throw new NoSuchElementException("조회된 결과가 없습니다.");
+		}
 		List<Long> recruitmentIds = recruitments.stream()
 			.map(Recruitment::getId)
 			.filter(rId -> !Objects.equals(rId, recruitmentId))
@@ -86,6 +93,9 @@ public class RecruitmentService {
 	public List<FindRecruitmentResponse> findBySearchParam(String search) {
 		List<Recruitment> recruitments = recruitmentRepository.findBySearchParam(search);
 
+		if (recruitments == null) {
+			throw new NoSuchElementException("조회된 결과가 없습니다.");
+		}
 		return recruitments.stream()
 			.map(r -> r.toDto(r))
 			.collect(Collectors.toList());
